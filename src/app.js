@@ -23,7 +23,7 @@ app.options(/^\/api\/.*$/, cors(corsOptions));
 app.use(express.json());
 
 // Rutas
-app.use('/', userRoutes);
+app.use('/api/users', userRoutes);
 
 // Conexiones
 async function startServer() {

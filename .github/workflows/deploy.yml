@@ -33,6 +33,7 @@ jobs:
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
+          echo "${{ secrets.ENV_FILE }}" > .env
           docker pull arieling/ms-user-register
           docker stop ms-user-register || true
           docker rm ms-user-register || true

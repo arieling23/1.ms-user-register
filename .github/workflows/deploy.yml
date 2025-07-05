@@ -1,0 +1,39 @@
+# .github/workflows/deploy.yml
+name: CI/CD to EC2
+
+on:
+  push:
+    branches:
+      - main
+      - qa
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+
+    - name: Loguear en Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Construir imagen y subir a Docker Hub
+      run: |
+        docker build -t arieling/ms-user-register .
+        docker push arieling/ms-user-register
+
+    - name: Acceder a EC2 y desplegar contenedor
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          docker pull arieling/ms-user-register
+          docker stop ms-user-register || true
+          docker rm ms-user-register || true
+          docker run -d --name ms-user-register -p 3001:3001 --env-file .env arieling/ms-user-register

@@ -7,8 +7,4 @@ router.post('/register', registerUser);
 // 🚨 Nueva ruta
 router.put('/update-password', updatePassword);
 
-router.get('/ping', (req, res) => {
-  res.json({ message: 'pong' });
-});
-
 module.exports = router;

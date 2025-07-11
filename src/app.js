@@ -32,7 +32,7 @@ async function startServer() {
     await connectRabbitMQ();       
 
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://10.0.1.40:${PORT}`);
+      console.log(`🚀 Servidor corriendo en http://54.156.172.190:${PORT}`);
     });
   } catch (err) {
     console.error('❌ Error al iniciar el servidor:', err.message);

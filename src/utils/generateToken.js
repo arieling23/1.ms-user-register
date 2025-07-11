@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 module.exports = function generateToken(id, email, role, name) {
   return jwt.sign(
     {
-      id: id.toString(), // ✅ asegura que el ID sea string
+      id: id.toString(), 
       email,
       role,
       name,

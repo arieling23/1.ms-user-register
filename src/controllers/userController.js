@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// 🚨 Nuevo controlador
+
 const updatePassword = async (req, res) => {
   const { email, newPassword } = req.body;
 

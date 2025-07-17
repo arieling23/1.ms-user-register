@@ -5,21 +5,18 @@ const userRoutes = require('./routes/userRoutes');
 const connectDB = require('./config/database'); 
 const { connectRabbitMQ } = require('./events/publisher');
 
-
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
-  origin: 'http://54.225.75.133:3000', 
+  origin: 'http://54.225.75.133:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 
-// CORS Middleware
+// CORS
 app.use(cors(corsOptions));
-
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Origin', corsOptions.origin);
@@ -30,14 +27,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rutas
+
+app.use(express.json());
+
+
 app.use('/api/users', userRoutes);
 
-// Conexiones
 async function startServer() {
   try {
-    await connectDB();             
-    await connectRabbitMQ();       
+    await connectDB();
+    await connectRabbitMQ();
 
     app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en http://54.156.172.190:${PORT}`);

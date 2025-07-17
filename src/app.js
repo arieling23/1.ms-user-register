@@ -11,16 +11,24 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 const corsOptions = {
-  origin: 'http://54.225.75.133:3000', // donde corre tu frontend
+  origin: 'http://54.225.75.133:3000', 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
 };
 
-// Middlewares
+// CORS Middleware
 app.use(cors(corsOptions));
-app.options(/^\/api\/.*$/, cors(corsOptions));
-app.use(express.json());
+
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', corsOptions.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return res.sendStatus(204);
+  }
+  next();
+});
 
 // Rutas
 app.use('/api/users', userRoutes);

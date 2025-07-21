@@ -22,7 +22,7 @@ async function registerUserService({ name, email, password }) {
     throw { status: 409, message: 'El correo electrónico ya está registrado.' };
   }
 
-  // 🔒 Verificar si ya existe algún admin
+  
   const existingAdmin = await User.findOne({ role: 'admin' });
 
   const role = existingAdmin ? 'user' : 'admin';
@@ -31,7 +31,7 @@ async function registerUserService({ name, email, password }) {
   const newUser = new User({ name, email, password: hashedPassword, role });
   await newUser.save();
 
-  // 📨 Emitir evento
+
   await publishEvent('user.registered', {
     type: 'user.registered',
     data: {
@@ -57,7 +57,7 @@ async function registerUserService({ name, email, password }) {
   };
 }
 
-// 🔁 Servicio para actualizar contraseña desde ms-password-recovery
+
 async function updatePasswordService(email, newPassword) {
   if (!email || !newPassword) {
     throw { status: 400, message: 'Email y nueva contraseña son requeridos.' };
@@ -68,7 +68,7 @@ async function updatePasswordService(email, newPassword) {
     return { success: false, message: 'Usuario no encontrado.' };
   }
 
-  user.password = newPassword; // ya viene encriptada
+  user.password = newPassword; 
   await user.save();
 
   return { success: true };

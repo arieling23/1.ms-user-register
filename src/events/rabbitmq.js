@@ -1,4 +1,4 @@
-// src/events/rabbitmq.js
+
 const amqp = require('amqplib');
 
 let channel = null;

@@ -24,7 +24,7 @@ const publishEvent = async (routingKey, data) => {
 
   const payload = Buffer.from(JSON.stringify(data));
 
-  // Publicar en el exchange "user" con la routingKey correspondiente
+ 
   channel.publish('user', routingKey, payload, {
     persistent: true,
   });
